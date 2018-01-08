@@ -1,14 +1,9 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1>My Fantastic Blog</h1>
 
+<h1>{{posts[0].title}}</h1>
     <hr />
-
-    {% if posts|length == 0 %}
-    <p>No Posts yet.  Please make an entry.</p>
-    {% else %}
-      
         <ul>
             {% for post in posts %}
             <p>
@@ -22,9 +17,10 @@
             {% endfor %}
         </ul>
 
-    {% endif %}
-
-    <hr />
-
+<nav>
+    <a href="/post/{{posts[0].id-1}}">Previous</a> |
+    <a href="/blog">All</a> |
+    <a href="/post/{{posts[0].id+1}}">Next</a> |
+</nav> 
 
 {% endblock %}

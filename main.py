@@ -23,11 +23,20 @@ def index():
     return redirect ('/blog')
 
 @app.route('/blog', methods=['POST', 'GET'])
-def blogposts():
-    #TO DO  change order to desc by id for newer posts on top.
+def allblogposts():
     allPosts = Blog.query.order_by(Blog.id.desc()).all()
-    #allPosts = Blog.query.all()
     return render_template('blogposts.html',title="My Fantastic Blog", posts=allPosts)
+
+@app.route('/post/<int:post_id>', methods=['POST', 'GET'])
+def show_post(post_id):
+    #postId = oneBlogPost.request.get("id")
+    #, form_value = request.args.get(Blog.id)
+    onePost = Blog.query.filter(Blog.id==post_id).all()
+    title_post=onePost[0].title
+    #id = onePost.key().id()
+    #self.redirect("/post" postId=id)
+
+    return render_template('post.html', posts=onePost, post_id=post_id)
 
 #@app.route('/newpost', methods=['POST', 'GET'])
 @app.route('/newpost', methods=['POST', 'GET'])
@@ -56,7 +65,14 @@ def newPost():
             new_post = Blog(post_title, post_body)
             db.session.add(new_post)
             db.session.commit()
-            return redirect('/blog')
+            new_post_id = db.session.query(db.func.max(Blog.id)).scalar()
+
+            #post_id = db.func.max(Blog.id)
+            onePost = Blog.query.filter(Blog.id==new_post_id).all()
+            
+            
+            return redirect('/post/%s' % new_post_id)
+            #return redirect('/blog')
 
     else:
         return render_template('newpost.html')
