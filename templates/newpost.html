@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {% extends "base.html" %}
 
 {% block content %}
@@ -23,4 +24,31 @@
 
     <hr />
 
+=======
+{% extends "base.html" %}
+
+{% block content %}
+    <style>
+        .error {
+        color: red;
+        }
+    </style>
+
+    <h1>Create A New Blog Post!</h1>
+    <form method='POST'>
+        <label>
+            New Post Title:
+            <input type="text" name='title' value="{{title}}" minlength=1 maxlength=120 />
+            <span class="error">{{title_error}}</span>
+            <br />
+            New Post Body:
+            <input type="text" name='body'  value="{{body}}" minlength=1 maxlength=520 size = 100/>
+            <span class="error">{{body_error}}</span>
+        </label>
+        <input type="submit" value='Add Post' />
+    </form>
+
+    <hr />
+
+>>>>>>> 679a254e7fa24b0b0d0ec8942b92b5b3136aabb9
 {% endblock %}
