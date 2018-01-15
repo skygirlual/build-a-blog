@@ -29,14 +29,12 @@ def allblogposts():
 
 @app.route('/post/<int:post_id>', methods=['POST', 'GET'])
 def show_post(post_id):
-    max_post_id = db.session.query(db.func.max(Blog.id)).scalar()
-    if post_id == 0 or post_id > max_post_id:
-            return redirect ('/blog')
-
-    onePost = Blog.query.filter(Blog.id==post_id).all()
-    title_post=onePost[0].title
-
-    return render_template('post.html', posts=onePost, post_id=post_id)
+    onePost = Blog.query.filter_by(id=post_id).first()
+    #validate post id is valid using query results
+    # this fixes nav buttons out of range 
+    if onePost == None:
+        return redirect ('/blog')
+    return render_template('post.html', post=onePost, post_id=post_id)
 
 @app.route('/newpost', methods=['POST', 'GET'])
 def newPost():
